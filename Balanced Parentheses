@@ -1,0 +1,20 @@
+parentheses_for_check = ([x for x in input()])
+parentheses_library = ["()", "{}", "[]"]
+
+opening = []
+balanced = True
+if len(parentheses_for_check) % 2 == 1:
+    balanced = False
+else:
+    for brackets in parentheses_for_check:
+        if brackets == "{" or brackets == "[" or brackets == "(":
+            opening.append(brackets)
+        elif brackets == "}" or brackets == "]" or brackets == ")":
+            compare_with_open = opening.pop()
+            if not (compare_with_open + brackets) in parentheses_library:
+                balanced = False
+                break
+if not opening and balanced:
+    print("YES")
+else:
+    print("NO")
