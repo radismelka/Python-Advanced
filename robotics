@@ -1,0 +1,49 @@
+from collections import deque
+
+
+def converting_time_to_seconds(convert):  # form input 7:59:59
+    hours, minutes, seconds = [int(x) for x in convert]  # convert to [7, 59, 59]
+    return hours * 60 * 60 + minutes * 60 + seconds  # 28799
+
+
+def robot_start_time(format_time):  
+    format_time %= (24* 60 * 60)  
+    hh = format_time // 3600  # 7
+    mm = (format_time % 3600) // 60  
+    ss = (format_time % 60)  
+    return f"{hh:02d}:{mm:02d}:{ss:02d}"  # result 07:59:59
+
+
+working_robots = input().split(";")
+starting_time = input().split(":")
+
+time_in_seconds = converting_time_to_seconds(starting_time)
+
+robots_name_time_available = deque()
+
+for robot in range(len(working_robots)):
+    name, time = working_robots[robot].split("-")
+    list_of_robots = {"name": name, "time": int(time), "processing_time": 0}
+    robots_name_time_available.append(list_of_robots)
+
+processing_items = deque()
+
+item = input()
+while not item == "End":
+    processing_items.append(item)
+    item = input()
+
+while processing_items:
+    current_item = processing_items.popleft()
+    found_robot = False
+    time_in_seconds += 1
+    # clock = time_in_seconds
+
+    for current_robot in robots_name_time_available:
+        if current_robot["processing_time"] <= time_in_seconds:
+            current_robot["processing_time"] = time_in_seconds + current_robot["time"]
+            found_robot = True
+            print(f"{current_robot['name']} - {current_item} [{robot_start_time(time_in_seconds)}]")
+            break
+    if not found_robot:
+        processing_items.append(current_item)
