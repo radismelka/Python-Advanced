@@ -1,0 +1,31 @@
+from collections import deque
+
+price_of_bullet = int(input())
+size_of_the_gun_barrel = int(input())   # The input gives information about the number of bullets in the pistol barrel.
+all_bullets = deque([int(x) for x in input().split()])  # going through the bullets back-to-front
+safe_locks = deque([int(x) for x in input().split()])  # shoot the locks front-to-back
+
+value_of_the_intelligence = int(input())
+
+while all_bullets and safe_locks:
+    count = 0
+    for shoot in range(size_of_the_gun_barrel):
+        if all_bullets and safe_locks:
+            count += 1
+            current_bullet = all_bullets.pop()
+            current_lock = safe_locks.popleft()
+            if current_lock >= current_bullet:
+                print("Bang!")
+                value_of_the_intelligence -= price_of_bullet
+            else:
+                print("Ping!")
+                safe_locks.appendleft(current_lock)
+                value_of_the_intelligence -= price_of_bullet
+    if count == size_of_the_gun_barrel and all_bullets:
+        print("Reloading!")
+
+
+if not safe_locks:
+    print(f"{len(all_bullets)} bullets left. Earned ${value_of_the_intelligence}")
+else:
+    print(f"Couldn't get through. Locks left: {len(safe_locks)}")
