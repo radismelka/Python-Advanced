@@ -1,0 +1,32 @@
+from collections import deque
+
+cups_capacity = deque([int(x) for x in input().split()])  # filling from the first entered cup
+bottles_capacity = deque([int(x) for x in input().split()])  # picking from the last received bottle
+wasted_water = 0
+
+while cups_capacity and bottles_capacity:
+    if cups_capacity and bottles_capacity:
+        current_cup = cups_capacity.popleft()
+        current_bottle = bottles_capacity.pop()
+        if current_bottle >= current_cup:
+            wasted_water += current_bottle - current_cup
+        else:
+            while not current_cup <= 0:
+                if bottles_capacity:
+                    current_cup -= current_bottle
+                    if not current_cup <= 0:
+                        current_bottle = bottles_capacity.pop()
+                    else:
+                        if current_cup < 0:
+                            wasted_water += abs(current_cup)
+                        break
+                else:
+                    current_cup -= current_bottle
+                    cups_capacity.appendleft(current_cup)
+                    break
+
+if not cups_capacity:
+    print(f"Bottles: {' '.join(map(str, reversed(bottles_capacity)))}")
+else:
+    print(f"Cups: {' '.join(map(str,cups_capacity))}")
+print(f"Wasted litters of water: {wasted_water}")
