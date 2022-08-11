@@ -1,0 +1,19 @@
+sequence_of_numbers = tuple([int(x) for x in input().split()])
+
+target_number = int(input())
+unique_pairs = set()
+count_iterations = 0
+
+for num in range(len(sequence_of_numbers)):
+    a = sequence_of_numbers[num]
+    for next_num in range(num+1, len(sequence_of_numbers)):
+        count_iterations += 1
+        x = sequence_of_numbers[next_num]
+        if a + x == target_number:
+            unique_pairs.add((a, x))
+            print(f"{a} + {x} = {target_number}")
+
+print(f"Iterations done: {count_iterations}")
+
+for n in unique_pairs:
+    print(n)
