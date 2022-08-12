@@ -1,0 +1,40 @@
+a_sequence = set(input().split())
+b_sequence = set(input().split())
+lines = int(input())
+
+for line in range(lines):
+    current_command = input().split()
+    command = current_command[0]
+    change_data = current_command[1]
+    if command == "Add" and change_data == "First":
+        a_sequence = a_sequence.union(current_command[2::])
+    elif command == "Add" and change_data == "Second":
+        b_sequence = b_sequence.union(current_command[2::])
+    elif command == "Remove" and change_data == "First":
+        a_sequence = a_sequence.difference(current_command[2::])
+    elif command == "Remove" and change_data == "Second":
+        b_sequence = b_sequence.difference(current_command[2::])
+    elif command == "Check":
+        print(a_sequence.issubset(b_sequence) or b_sequence.issubset(a_sequence))
+
+print(', '.join(map(str, sorted(int(x) for x in a_sequence))))
+print(', '.join(map(str, sorted(int(x) for x in b_sequence))))
+
+"""
+Examples for input            OUTPUTS
+----------------------|----------------------
+1 2 3 4 5             | True
+1 2 3                 | 1, 2, 3, 4, 5, 6
+3                     | 1, 2, 3
+Add First 5 6
+Remove Second 8 9 11
+Check Subset
+----------------------|----------------------
+5 4 2 9 9 5 4         | False
+1 1 1 5 6 5           | 2, 3, 4, 5, 6, 9
+4                     | 6
+Add First 5 6 9 3
+Add Second 1 2 3 3 3
+Check Subset
+Remove Second 1 2 3 4 5
+"""
