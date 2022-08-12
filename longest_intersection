@@ -1,0 +1,23 @@
+def make_sequence(one, two):
+    line = set()
+    for x in range(one, two + 1):
+        line.add(x)
+    return line
+
+
+lines = int(input())
+
+range_a = set()
+range_b = set()
+longest_intersection = ""
+for _ in range(lines):
+    first, second = input().split("-")
+    f_start, f_end = [int(x) for x in first.split(",")]
+    s_start, s_end = [int(x) for x in second.split(",")]
+    range_a = (make_sequence(f_start, f_end))
+    range_b = (make_sequence(s_start, s_end))
+    intersection_a_b = range_a.intersection(range_b)
+    if len(longest_intersection) < len(intersection_a_b):
+        longest_intersection = intersection_a_b
+
+print(f"Longest intersection is [{', '.join(map(str, longest_intersection))}] with length {len(longest_intersection)}")
