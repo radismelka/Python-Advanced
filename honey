@@ -19,7 +19,7 @@ while working_bees and nectar_data:
     if nectar < bee:
         working_bees.appendleft(bee)
     else:
-        operator = symbols.popleft()  # TODO това да го проверя дали така се търси
+        operator = symbols.popleft()
         made_up_honey += abs(operators[operator](bee, nectar))
 
 print(f"Total honey made: {made_up_honey}")
