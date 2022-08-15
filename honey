@@ -1,0 +1,50 @@
+from collections import deque
+
+operators = {
+    "+": lambda x, y: x + y,
+    "-": lambda x, y: x - y,
+    "*": lambda x, y: x * y,
+    "/": lambda x, y: x / y if y > 0 else y
+}
+
+made_up_honey = 0
+
+working_bees = deque([int(number) for number in input().split()])   # first
+nectar_data = [int(number) for number in input().split()]  # last
+symbols = deque(input().split())
+
+while working_bees and nectar_data:
+    bee = working_bees.popleft()
+    nectar = nectar_data.pop()
+    if nectar < bee:
+        working_bees.appendleft(bee)
+    else:
+        operator = symbols.popleft()  # TODO това да го проверя дали така се търси
+        made_up_honey += abs(operators[operator](bee, nectar))
+
+print(f"Total honey made: {made_up_honey}")
+if working_bees:
+    print(f"Bees left: {', '.join(map(str, working_bees))}")
+if nectar_data:
+    print(f"Nectar left: {', '.join(map(str, nectar_data))}")
+
+"""
+samples
+INPUT 1
+20 62 99 35 0 150
+120 60 10 1 70 10
++ - + + / * - - /
+
+OUTPUT 1
+Total honey made: 148
+Bees left: 99, 35, 0, 150
+
+INPUT 1
+0 62 99 35 0 150
+120 60 10 1 70 0
+/ - + + / * - - /
+
+OUTPUT 1
+Total honey made: 227
+Bees left: 35, 0, 150
+"""
